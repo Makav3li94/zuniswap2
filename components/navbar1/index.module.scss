@@ -1,0 +1,83 @@
+/*phone media*/
+@media screen and (max-width: 768px){
+    .nav_wrapp{
+        text-align: center;
+        direction: ltr;
+        ul{
+            background: #fff;
+            display: inline-block;
+            padding: 0;
+            border-radius: 18px;
+            
+            li{
+                display: inline-block;
+                padding: 5px 10px;
+                a{
+                    color: #303030;
+                }
+                
+            }
+            .active{
+                background: #c5c5c5;
+                border-radius: 18px;
+                // padding: 5px 10px;
+            }
+        }
+    }
+}
+
+/*tablet media*/
+@media screen and (min-width: 768px) {
+    .nav_wrapp{
+        text-align: center;
+        direction: ltr;
+        ul{
+            background: #fff;
+            display: inline-block;
+            padding: 0;
+            border-radius: 18px;
+            
+            li{
+                display: inline-block;
+                padding: 5px 10px;
+                a{
+                    color: #303030;
+                }
+                
+            }
+            .active{
+                background: #c5c5c5;
+                border-radius: 18px;
+                // padding: 5px 10px;
+            }
+        }
+    }
+}
+
+/*desktop media*/
+@media screen and (min-width: 992px){
+    .nav_wrapp{
+        text-align: center;
+        direction: ltr;
+        ul{
+            background: #fff;
+            display: inline-block;
+            padding: 0;
+            border-radius: 18px;
+            
+            li{
+                display: inline-block;
+                padding: 5px 10px;
+                a{
+                    color: #303030;
+                }
+                
+            }
+            .active{
+                background: #c5c5c5;
+                border-radius: 18px;
+                // padding: 5px 10px;
+            }
+        }
+    }
+}

@@ -1,0 +1,266 @@
+/*phone media*/
+@media screen and (max-width: 768px){
+    .swap{
+        background: #eef3ff;
+        .box_wrapp{
+            background: #fff;
+            margin: 0 auto 50px;
+            border: 1px solid #ccc;
+            padding: 30px;
+            border-radius: 20px;
+            .title_wrapp{
+                text-align: center;
+                border-bottom: 1px solid #ccc;
+                padding: 0 0 10px 0;
+                font-size: 30px;
+                margin-bottom: 18px;
+            }
+            .select_box{
+                direction: ltr;
+                .token_symbol{
+                    display: inline-block;
+                    .token_name{
+                        margin-top: 0;
+                    }
+                }
+                .token_balance{
+                    display: inline-block;
+                }
+            }
+            .input_box{
+                label{
+                    width: 100%;
+                    background: #eeeaf4;
+                    border-radius: 16px;
+                    padding: 2px 15px;
+                    margin: 5px auto 20px;
+                    .input{
+                        border: 0;
+                        width: 100%;
+                        background: transparent;
+                        color: #303030;
+                        &:focus{
+                            outline: none;
+                        }
+                    }
+                    .max{
+                        display: inline-block;
+                        border: 1px solid #1fc7d4;
+                        color: #1fc7d4;
+                        border-radius: 16px;
+                        padding: 1px 5px;
+                        margin: 5px 0 5px;
+                        font-size: 12px;
+                        font-weight: 800;
+                    }
+                }
+            }
+            .change_wrapp{
+                text-align: center;
+                .circle{
+                    background: #eef3ff;
+                    border-radius: 50%;
+                    width: 25px;
+                    height: 25px;
+                    text-align: center;
+                    padding: 2px 0 0 0;
+                }
+            }
+            .gas_wrapp{
+                direction: ltr;
+                .gas_box{
+                    background: #eeeaf4;
+                    border-radius: 16px;
+                    padding: 2px 15px;
+                    margin: 5px auto 20px;
+                }
+            }
+            button{
+                width: 100%;
+                background: #eef3ff;
+                border-radius: 15px;
+                font-size: 20px;
+                border: none;
+                padding: 10px 10px;
+            }
+        }
+    }
+}
+
+/*tablet media*/
+@media screen and (min-width: 768px) {
+    .swap{
+        background: #eef3ff;
+        .box_wrapp{
+            background: #fff;
+            margin: 0 auto 50px;
+            border: 1px solid #ccc;
+            padding: 30px;
+            border-radius: 20px;
+            .title_wrapp{
+                text-align: center;
+                border-bottom: 1px solid #ccc;
+                padding: 0 0 10px 0;
+                font-size: 30px;
+                margin-bottom: 18px;
+            }
+            .select_box{
+                direction: ltr;
+                .token_symbol{
+                    display: inline-block;
+                    .token_name{
+                        margin-top: 0;
+                    }
+                }
+                .token_balance{
+                    display: inline-block;
+                }
+            }
+            .input_box{
+                label{
+                    width: 100%;
+                    background: #eeeaf4;
+                    border-radius: 16px;
+                    padding: 2px 15px;
+                    margin: 5px auto 20px;
+                    .input{
+                        border: 0;
+                        width: 100%;
+                        background: transparent;
+                        color: #303030;
+                        &:focus{
+                            outline: none;
+                        }
+                    }
+                    .max{
+                        display: inline-block;
+                        border: 1px solid #1fc7d4;
+                        color: #1fc7d4;
+                        border-radius: 16px;
+                        padding: 1px 5px;
+                        margin: 5px 0 5px;
+                        font-size: 12px;
+                        font-weight: 800;
+                    }
+                }
+            }
+            .change_wrapp{
+                text-align: center;
+                .circle{
+                    background: #eef3ff;
+                    border-radius: 50%;
+                    width: 25px;
+                    height: 25px;
+                    text-align: center;
+                    padding: 2px 0 0 0;
+                }
+            }
+            .gas_wrapp{
+                direction: ltr;
+                .gas_box{
+                    background: #eeeaf4;
+                    border-radius: 16px;
+                    padding: 2px 15px;
+                    margin: 5px auto 20px;
+                }
+            }
+            button{
+                width: 100%;
+                background: #eef3ff;
+                border-radius: 15px;
+                font-size: 20px;
+                border: none;
+                padding: 10px 10px;
+            }
+        }
+    }
+}
+
+/*desktop media*/
+@media screen and (min-width: 992px){
+    .swap{
+        background: #eef3ff;
+        .box_wrapp{
+            background: #fff;
+            margin: 0 auto 50px;
+            border: 1px solid #ccc;
+            padding: 30px;
+            border-radius: 20px;
+            .title_wrapp{
+                text-align: center;
+                border-bottom: 1px solid #ccc;
+                padding: 0 0 10px 0;
+                font-size: 30px;
+                margin-bottom: 18px;
+            }
+            .select_box{
+                direction: ltr;
+                .token_symbol{
+                    display: inline-block;
+                    .token_name{
+                        margin-top: 0;
+                    }
+                }
+                .token_balance{
+                    display: inline-block;
+                }
+            }
+            .input_box{
+                label{
+                    width: 100%;
+                    background: #eeeaf4;
+                    border-radius: 16px;
+                    padding: 2px 15px;
+                    margin: 5px auto 20px;
+                    .input{
+                        border: 0;
+                        width: 100%;
+                        background: transparent;
+                        color: #303030;
+                        &:focus{
+                            outline: none;
+                        }
+                    }
+                    .max{
+                        display: inline-block;
+                        border: 1px solid #1fc7d4;
+                        color: #1fc7d4;
+                        border-radius: 16px;
+                        padding: 1px 5px;
+                        margin: 5px 0 5px;
+                        font-size: 12px;
+                        font-weight: 800;
+                    }
+                }
+            }
+            .change_wrapp{
+                text-align: center;
+                .circle{
+                    background: #eef3ff;
+                    border-radius: 50%;
+                    width: 25px;
+                    height: 25px;
+                    text-align: center;
+                    padding: 2px 0 0 0;
+                }
+            }
+            .gas_wrapp{
+                direction: ltr;
+                .gas_box{
+                    background: #eeeaf4;
+                    border-radius: 16px;
+                    padding: 2px 15px;
+                    margin: 5px auto 20px;
+                }
+            }
+            button{
+                width: 100%;
+                background: #eef3ff;
+                border-radius: 15px;
+                font-size: 20px;
+                border: none;
+                padding: 10px 10px;
+            }
+        }
+    }
+}

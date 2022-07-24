@@ -1,0 +1,30 @@
+{
+  "name": "swaper",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@openzeppelin/contracts": "^4.6.0",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.0.0",
+    "graphql": "^16.5.0",
+    "hardhat": "^2.9.3",
+    "next": "10.0.0",
+    "react": "16.10",
+    "react-dom": "16.10",
+    "react-modal": "^3.15.1",
+    "react-toastify": "^9.0.1",
+    "sass": "^1.51.0",
+    "web3": "^1.7.3"
+  },
+  "devDependencies": {
+    "eslint": "8.15.0",
+    "eslint-config-next": "12.1.6"
+  }
+}
