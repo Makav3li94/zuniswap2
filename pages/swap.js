@@ -3,21 +3,24 @@ import styles from './swap.module.scss'
 import Navbar1 from "../components/navbar1/";
 import contract from '../src/contracts/mocks/ERC20Mintable.sol/ERC20Mintable.json';
 import exchangeContract from '../src/contracts/ZuniswapV2Pair.sol/ZuniswapV2Pair.json';
+import libContract from '../src/contracts/ZuniswapV2Library.sol/ZuniswapV2Library.json';
 import factoryContracta from '../src/contracts/ZuniswapV2Factory.sol/ZuniswapV2Factory.json';
+import routerCont from '../src/contracts/ZuniswapV2Router.sol/ZuniswapV2Router.json';
 import Modal from 'react-modal';
 import {ethers} from 'ethers';
 import Web3 from "web3";
 import {useMetamaskContext} from "../context/metamask";
 import {ToastContainer, toast} from 'react-toastify';
 
-const tokenContractAddress = "0x360f3Bfaf58Cce4780732B8588523A1006961910";
-const pairContractAddress = "0xD4Ff3087b743bDA327a85206d243bD90A1E4BA07";
-const factoryContractAddress = "0xf3EB51Fde72D077f8945EFa2802B02267A4EB767";
+const routerContractAddress = "0xc61FA95A7821c44E4eb551Fd5B67b26A47F24A45";
+const WETH = "0xc778417E063141139Fce010982780140Aa0cD5Ab";
+const factoryContractAddress = "0x26f249CFc4d1770626d04b86CCf4c091F93010C7";
+const libConAdd = "0x8fC00393851cAF3E64d9b85c60BDe1c4546BC647"
 const tokenAbi = contract.abi;
 const pairAbi = exchangeContract.abi;
 const factoryAbi = factoryContracta.abi;
-
-
+const routerAbi = routerCont.abi
+const libAbi = libContract.abi
 const Swap = () => {
 
     const {
@@ -250,29 +253,54 @@ const Swap = () => {
     }
 
     const handleBestRate = async () => {
+        const provider = new ethers.providers.Web3Provider(ethereumData);
+        const signer = provider.getSigner();
+        const factoryContract = new ethers.Contract(factoryContractAddress, factoryAbi, signer);
+        let tk1Address
+        let tk2Address
+        let pairAddress 
+        console.log(token1select.hashCode)
+        console.log(token2select.hashCode)
+
+        if(token1select.hashCode !== "ETH"){
+            tk1Address = token1select.hashCode
+            tk2Address = token2select.hashCode
+           pairAddress = await factoryContract.pairs(tk1Address,tk2Address)
+           if (!pairAddress) {
+               throw new Error('Failed to approve pairAddress')
+           }
+  
+
+       }else{
+            tk2Address = token2select.hashCode
+            pairAddress = await factoryContract.pairs(WETH,tk2Address)
+       }
         console.log("omad to best rate");
-        let tk1 = token1select.symbol
-        let inputAmount
-        let inputReserve
-        let outputReserve
-        if (tk1 === "ETH") {
-            inputAmount = token1input
-            await getEthbalance(token2select.symbol)
-            await getTokenbalance(token2select.symbol)
-            inputReserve = ethPoolBalance
-            outputReserve = tokenPoolBalance
-        } else {
-            await getEthbalance(token1select.symbol)
-            await getTokenbalance(token1select.symbol)
-            inputAmount = token1input
-            inputReserve = tokenPoolBalance
-            outputReserve = ethPoolBalance
+        let tokenContract1 
+        let tokenContract2
+        let token1Balance 
+        let token2Balance
+     
+        if(token1select.hashCode == "ETH"){
+             tokenContract2 = new ethers.Contract(tk2Address, tokenAbi, signer);
+             token1Balance = await provider.getBalance(pairAddress)
+             token2Balance = await tokenContract2.balanceOf(pairAddress)
+
+        }else{
+             tokenContract1 = new ethers.Contract(tk1Address, tokenAbi, signer);
+             token1Balance = await tokenContract1.balanceOf(pairAddress)
+             tokenContract2 = new ethers.Contract(tk2Address, tokenAbi, signer);
+             token2Balance = await tokenContract2.balanceOf(pairAddress)
         }
-        console.log("input:",inputReserve)
-        console.log("output:",outputReserve)
-        let inputAmountWithFee = parseFloat(inputAmount) * 99;
+        console.log("pair:", pairAddress);
+        let inputAmount = token1input
+        let inputReserve = token1Balance
+        let outputReserve = token2Balance
+
+        
+        let inputAmountWithFee = parseFloat(inputAmount) * 997;
         let numerator = parseFloat(inputAmountWithFee) * parseFloat(outputReserve);
-        let denominator = (parseFloat(inputReserve) * 100) + parseFloat(inputAmountWithFee);
+        let denominator = (parseFloat(inputReserve) * 1000) + parseFloat(inputAmountWithFee);
         let bestRate = numerator / denominator;
         console.log("mohasebe best rate", bestRate);
         setBestCal(bestRate - 0.001)
@@ -300,60 +328,81 @@ const Swap = () => {
     }
 
     const handleSwapSubmit = async () => {
+         
         if(bestCal > 0){
-            let tk1 = token1select.symbol
+            const provider = new ethers.providers.Web3Provider(ethereumData);
+            const signer = provider.getSigner();
+            const factoryContract = new ethers.Contract(factoryContractAddress, factoryAbi, signer);
+            let tk1Address
+            let tk2Address
+            let pairAddress 
+            if(token1select.hashCode !== "ETH"){
+                tk1Address = token1select.hashCode
+                tk2Address = token2select.hashCode
+               pairAddress = await factoryContract.pairs(tk1Address,tk2Address)
+               if (!pairAddress) {
+                   throw new Error('Failed to approve pairAddress')
+               }
+      
+    
+           }else{
+                tk2Address = token2select.hashCode
+                pairAddress = await factoryContract.pairs(WETH,tk2Address)
+           }
 
-            const accounts = await ethereum.request({method: 'eth_accounts'});
-            const account = accounts[0];
-    
-            if (tk1 === "ETH") {
-    
-                let exchangeAddress = findExchangeAddress(token2select.symbol)
-                let tokenAddress = findTokenAddress(token2select.symbol)
-    
-                const provider = new ethers.providers.Web3Provider(ethereumData);
-                const signer = provider.getSigner();
-    
-                const exchangeContract = new ethers.Contract(exchangeAddress, exAbi, signer);
-                console.log(token1input.toString())
-                console.log(bestCal.toString())
-                let ethToTokenSwap = await exchangeContract.ethToTokenTransfer(Web3.utils.toWei(bestCal.toString()), account, {value: Web3.utils.toWei(token1input.toString())});
-                await ethToTokenSwap.wait(1);
-                console.log(ethToTokenSwap)
-                if (!ethToTokenSwap) {
+           const accounts = await ethereum.request({method: 'eth_accounts'});
+           const account = accounts[0];
+           let tokenContract1 
+           let tokenContract2
+           let token1Balance 
+           let token2Balance
+           let path = [token1select.hashCode,token2select.hashCode]
+           const routerContract = new ethers.Contract(routerContractAddress, routerAbi, signer);
+
+           if(token1select.hashCode == "ETH"){
+                tokenContract2 = new ethers.Contract(tk2Address, tokenAbi, signer);
+                token1Balance = await provider.getBalance(pairAddress)
+                token2Balance = await tokenContract2.balanceOf(pairAddress)
+   
+           }else{
+                tokenContract1 = new ethers.Contract(tk1Address, tokenAbi, signer);
+                token1Balance = await tokenContract1.balanceOf(pairAddress)
+                tokenContract2 = new ethers.Contract(tk2Address, tokenAbi, signer);
+                token2Balance = await tokenContract2.balanceOf(pairAddress)
+
+                // const libContract = new ethers.Contract(libConAdd, libAbi, signer);
+
+                // let amount = await libContract.getAmountOut(
+                //     Web3.utils.toWei(token1input.toString()),
+                //     Web3.utils.toWei(token1Balance.toString()),
+                //     Web3.utils.toWei(token2Balance.toString())
+                // );
+                // console.log("bestCal: ", bestCal);
+                // console.log("amount: ",Web3.utils.toWei(amount.toString()));
+
+                const tx1 = await tokenContract1.approve(routerContractAddress,Web3.utils.toWei(token1input.toString()))
+                await tx1.wait();
+                if (!tx1) {
                     throw new Error('Failed to approve transaction')
                 }
-                console.log(ethToTokenSwap);
-            } else {
-                console.log(token1select.symbol)
-                let exchangeAddress = findExchangeAddress(token1select.symbol)
-                let tokenAddress = findTokenAddress(token1select.symbol)
-    
-                const provider = new ethers.providers.Web3Provider(ethereumData);
-                const signer = provider.getSigner();
-    
-                const exchangeContract = new ethers.Contract(exchangeAddress, exAbi, signer);
-                const tokenContract = new ethers.Contract(tokenAddress, abi, signer);
-    
-                console.log(exchangeContract)
-                console.log(tokenContract)
-                console.log(token1input)
-    
-                let tx = await tokenContract.approve(exchangeAddress, Web3.utils.toWei(token1input.toString()))
-                await tx.wait(1);
-                console.log(tx)
-                if (!tx) {
-                    throw new Error('Failed to approve transaction')
+                console.log(token1input.toString());
+                console.log(bestCal.toString());
+
+
+                let num = 0.5;
+                let swap = await routerContract.swapExactTokensForTokens(
+                    Web3.utils.toWei(token1input.toString()),
+                    Web3.utils.toWei(num.toString()),
+                    path,
+                    account
+                );
+                await swap.wait(1);
+                console.log(swap)
+                if (!swap) {
+                    throw new Error('Failed to Swap')
                 }
-    
-                let tokenToEth = await exchangeContract.tokenToEthSwap(Web3.utils.toWei(token1input.toString()), Web3.utils.toWei(bestCal.toString()));
-                await tokenToEth.wait(1);
-                console.log(tokenToEth)
-                if (!tokenToEth) {
-                    throw new Error('Failed to approve transaction')
-                }
-                console.log(tokenToEth);
-            }
+           }
+
         }else{
             console.log("mojodi na kafi");
         }

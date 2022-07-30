@@ -80,11 +80,11 @@ const Swap = () => {
     },[token2select])
 
     useEffect(() => {
-        settoken2input(token1input*10)
+        settoken2input(token1input)
     },[token1input])
 
     useEffect(() => {
-        settoken1input(token2input/10)
+        settoken1input(token2input)
     },[token2input])
 
     const productBanner = {
@@ -216,24 +216,25 @@ const Swap = () => {
         }else{
              tokenContract1 = new ethers.Contract(tk1Address, tokenAbi, signer);
              token1Balance = await tokenContract1.balanceOf(pairAddress)
-            
              tokenContract2 = new ethers.Contract(tk2Address, tokenAbi, signer);
              token2Balance = await tokenContract2.balanceOf(pairAddress)
         }
 
+        console.log("bbb");
        
 
    
         const pairContract = new ethers.Contract(pairAddress, pairAbi, signer);
-        const liquidity = pairContract.balanceOf(account);
-
+        const liquidity = await pairContract.balanceOf(account);
+        const totalSupply = await pairContract.totalSupply()
+        // console.log("lp is : " , Web3.utils.fromWei(liquidity.toString()));
         setToken1Balance(token1Balance)
         setToken2Balance(token2Balance)
         setLPBalance(Web3.utils.fromWei(liquidity.toString()))
         setBurnAmount(Web3.utils.fromWei(liquidity.toString()))
         console.log(Web3.utils.fromWei(totalSupply.toString()));
-        console.log(Web3.utils.fromWei(res.toString()));
-        console.log("lp",Web3.utils.fromWei(liquidity.toString()));
+        // console.log(Web3.utils.fromWei(res.toString()));
+        // console.log("lp",Web3.utils.fromWei(liquidity.toString()));
     }
 
 
@@ -302,17 +303,41 @@ const Swap = () => {
     }
 
     const handleBurnLP = async () => {
-        // removeLiquidity
-        // changeTokenBalance
-        let tk1Address = token2select.hashCode;
-        let tk2Address = token2select.hashCode;
-
         const provider = new ethers.providers.Web3Provider(ethereumData);
         const signer = provider.getSigner();
-        const exchangeContract = new ethers.Contract(address, exAbi, signer);
-        console.log(lpbalance.toString());
-        let removeLiq = await exchangeContract.removeLiquidity(Web3.utils.toWei(burnAmount.toString()));
+        const factoryContract = new ethers.Contract(factoryContractAddress, factoryAbi, signer);
+        let pairAddress = '';
+        let tk1Address
+        let tk2Address
+        if(token1select.hashCode !== "ETH"){
+            tk1Address = token1select.hashCode
+            tk2Address = token2select.hashCode
+           pairAddress = await factoryContract.pairs(tk1Address,tk2Address)
+           if (!pairAddress) {
+               throw new Error('Failed to approve pairAddress')
+           }
+  
+           console.log(pairAddress);
+
+       }else{
+            tk2Address = token2select.hashCode
+            pairAddress = await factoryContract.pairs(WETH,tk2Address)
+            console.log("weth pair address : ",pairAddress); 
+       }
+
+       const pairContract = new ethers.Contract(pairAddress, pairAbi, signer);
+
+       const accounts = await ethereum.request({method: 'eth_accounts'});
+       const account = accounts[0];
+       const liquidity = await pairContract.balanceOf(account);
+
+       if(Web3.utils.toWei(burnAmount.toString()) <= (Web3.utils.toWei(liquidity.toString()))){
+
+        await pairContract.transfer(pairAddress, Web3.utils.toWei(burnAmount.toString()));
+
+        let removeLiq = await pairContract.burn(account);
         await removeLiq.wait(1);
+       }
     }
 
    
