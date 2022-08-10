@@ -3,9 +3,9 @@ import Link from "next/link";
 import styles from './add.module.scss'
 import Navbar1 from "../../components/navbar1/";
 import contract from '../../src/contracts/mocks/ERC20Mintable.sol/ERC20Mintable.json';
-import exchangeContract from '../../src/contracts/ZuniswapV2Pair.sol/ZuniswapV2Pair.json';
-import factoryContracta from '../../src/contracts/ZuniswapV2Factory.sol/ZuniswapV2Factory.json';
-import routerCont from '../../src/contracts/ZuniswapV2Router.sol/ZuniswapV2Router.json';
+import exchangeContract from '../../src/contracts/GLXSwapV2Pair.sol/GLXSwapV2Pair.json';
+import factoryContracta from '../../src/contracts/GLXSwapV2Factory.sol/GLXSwapV2Factory.json';
+import routerCont from '../../src/contracts/GLXSwapV2Router.sol/GLXSwapV2Router.json';
 import {useMetamaskContext} from '../../context/metamask/index'
 import Modal from 'react-modal';
 import { ethers } from 'ethers';
@@ -13,8 +13,8 @@ import Web3 from "web3";
 
 
 const pairContractAddress = "0xe4E64536f42a194c06Be831f0F196559871488f7";
-const factoryContractAddress = "0x26f249CFc4d1770626d04b86CCf4c091F93010C7";
-const routerContractAddress = "0xc61FA95A7821c44E4eb551Fd5B67b26A47F24A45";
+const factoryContractAddress = "0x37845Bc0c0FfA115746c2e77F50799101d1D791B";
+const routerContractAddress = "0x162e6d2d39A82a36675A62ce5AC58c008006E446";
 const WETH = "0xc778417E063141139Fce010982780140Aa0cD5Ab";
 
 const tokenAbi = contract.abi;

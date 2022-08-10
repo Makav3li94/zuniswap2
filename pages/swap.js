@@ -2,19 +2,19 @@ import React, {useState, useEffect} from "react";
 import styles from './swap.module.scss'
 import Navbar1 from "../components/navbar1/";
 import contract from '../src/contracts/mocks/ERC20Mintable.sol/ERC20Mintable.json';
-import exchangeContract from '../src/contracts/ZuniswapV2Pair.sol/ZuniswapV2Pair.json';
-import libContract from '../src/contracts/ZuniswapV2Library.sol/ZuniswapV2Library.json';
-import factoryContracta from '../src/contracts/ZuniswapV2Factory.sol/ZuniswapV2Factory.json';
-import routerCont from '../src/contracts/ZuniswapV2Router.sol/ZuniswapV2Router.json';
+import exchangeContract from '../src/contracts/GLXSwapV2Pair.sol/GLXSwapV2Pair.json';
+import libContract from '../src/contracts/GLXSwapV2Library.sol/GLXSwapV2Library.json';
+import factoryContracta from '../src/contracts/GLXSwapV2Factory.sol/GLXSwapV2Factory.json';
+import routerCont from '../src/contracts/GLXSwapV2Router.sol/GLXSwapV2Router.json';
 import Modal from 'react-modal';
 import {ethers} from 'ethers';
 import Web3 from "web3";
 import {useMetamaskContext} from "../context/metamask";
 import {ToastContainer, toast} from 'react-toastify';
 
-const routerContractAddress = "0xc61FA95A7821c44E4eb551Fd5B67b26A47F24A45";
+const routerContractAddress = "0x162e6d2d39A82a36675A62ce5AC58c008006E446";
 const WETH = "0xc778417E063141139Fce010982780140Aa0cD5Ab";
-const factoryContractAddress = "0x26f249CFc4d1770626d04b86CCf4c091F93010C7";
+const factoryContractAddress = "0x37845Bc0c0FfA115746c2e77F50799101d1D791B";
 const libConAdd = "0x8fC00393851cAF3E64d9b85c60BDe1c4546BC647"
 const tokenAbi = contract.abi;
 const pairAbi = exchangeContract.abi;
